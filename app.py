@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route('/', methods=["GET"]) #the '/' tells us that we are routing to the home page
 
 def index():
-    return "Flask UI test"
+    return render_template("index.html")
 
 if __name__ == '__main__':
     app.run(debug = True, threaded = True)
