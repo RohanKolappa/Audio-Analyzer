@@ -1,4 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
+import speech_recognition as sr
+
+
 
 app = Flask(__name__)
 
@@ -10,6 +13,29 @@ app = Flask(__name__)
 def index():
     if request.method == "POST":
         print("FORM DATA RECEIVED")
+
+    if "file" not in request.files: #failsafe in case file does not exist
+        return redirect(request.url)
+
+    file = request.files["file"]
+    if file.filename == "": #failsafe in case file is blank
+        return redirect(request.url)
+
+    if file: #file exists
+        r = sr.Recognizer() #initializing the instance of the speech recognition class
+        audioFile = sr.AudioFile(file) #AudioFile object is created (that the SR module can interpret)
+        with sr.audioFile as source: #opening and reading the file that we created through the recognizer
+            audio = r.record(source)
+            text = r.recognize_google(audio, key=None) #Google Cloud Speech API will be used to convert the audio into text
+            print(text)
+
+
+        try:
+            print("Transcription: " + r.recognize(audio))
+        except LookupError:  # speech is unintelligible
+            print("Could not understand audio")
+
+
     return render_template('index.html')
 
 
