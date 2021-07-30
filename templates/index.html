@@ -7,12 +7,21 @@
 <body> <!--body tag-->
 <div id= "speechContainer">
     <h1> Upload New File </h1> <!--this is the title of the web page-->
-    <form method = "" enctype="multipart/form-data">
+    <form method = "post" enctype="multipart/form-data">
         <input type = "file" name = "file"/> <!--this adds the choose file option-->
         <br>
         <input type = "submit" value = "Transcribe"/> <!--this adds the submit button after
-        the file is chosen-->
+        the file is chosen (which is titled "Transcribe")-->
     </form>
+    <!--adding a condition to show this div tag (so that the transcript header only shows if a proper file is chosen-->
+    {% if transcript != "" %}
+    <div id = "speechTranscriptContainer">
+        <h1> Transcript </h1>
+        <p> {{transcript}}</p>
+
+    </div>
+    {% endif %}
+    <!--code to print the speech-to-text on the Flask web application-->
 
 </div> <!--#div tag that specifies our speech container-->
 </body>

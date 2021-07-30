@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 
 def index():
+    transcript = ""
     if request.method == "POST":
         print("FORM DATA RECEIVED")
 
@@ -26,12 +27,11 @@ def index():
             audioFile = sr.AudioFile(file) #AudioFile object is created (that the SR module can interpret)
             with audioFile as source: #opening and reading the file that we created through the recognizer
                 data = recognizer.record(source)
-            text = recognizer.recognize_google(data, key=None) #Google Cloud Speech API will be used to convert the audio into text
-            print(text)
+            transcript = recognizer.recognize_google(data, key=None) #Google Cloud Speech API will be used to convert the audio into text
 
 
 
-    return render_template('index.html')
+    return render_template('index.html', transcript=transcript)
 
 
 if __name__ == '__main__':
